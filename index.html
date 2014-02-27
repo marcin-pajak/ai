@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Flocking, Marcin Pajak, UJ</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link type="text/css" rel="stylesheet" href="css/normalize.css">
+        <link type="text/css" rel="stylesheet" href="css/semantic.min.css">
+        <link type="text/css" rel="stylesheet" href="css/jquery.nouislider.min.css">
+        <link type="text/css" rel="stylesheet" href="css/main.css">
+    </head>
+    <body id="app" data-view="0">
+        <div id="webgl">
+        </div>
+        <div class="ui very wide right sidebar js-sidebar">
+            <div class="ui raised segment settings">
+                <span class="ui button dismiss js-sidebar-toggle">&times;</span>
+                <h3 class="caption">Options</h3>
+                <div class="columns two">
+                    <div class="column">
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label">Boids <span class="detail js-qty-value"></span></span>
+                            <div class="js-qty"></div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label">Max Velocity <span class="detail js-vel-value"></span></span>
+                            <div class="js-vel"></div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label">Avoid Mouse</span>
+                            <div class="ui toggle checkbox js-avoidmouse">
+                              <input type="checkbox" checked="checked" name="avoidmouse">
+                              <label>Off / On</label>
+                            </div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label">Tend Mouse</span>
+                            <div class="ui toggle checkbox js-tendmouse">
+                              <input type="checkbox" name="tendmouse">
+                              <label>Off / On</label>
+                            </div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label">Buildings</span>
+                            <div class="ui toggle checkbox js-buildings">
+                              <input type="checkbox" name="leader">
+                              <label>Removed / Added</label>
+                            </div>
+                        </div>
+                    </div><div class="column">
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label right">Cohesion Factor <span class="detail js-cohesion-value"></span></span>
+                            <div class="js-cohesion"></div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label right">Alignment Factor <span class="detail js-alignment-value"></span></span>
+                            <div class="js-alignment"></div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon label right">Separation Factor <span class="detail js-separation-value"></span></span>
+                            <div class="js-separation"></div>
+                        </div>
+                        <div class="ui setting">
+                            <span class="ui orange ribbon right label">Leader</span>
+                            <div class="ui toggle checkbox js-switchleader">
+                              <input type="checkbox" name="leader">
+                              <label>Removed / Added</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="author">&copy; Marcin Pajak, UJ, 2014</p>
+            </div>
+        </div>
+        <div class="ui very wide right sidebar js-scripts">
+            <div class="ui raised segment settings">
+                <span class="ui button dismiss js-scripts-toggle">&times;</span>
+                <h3 class="caption">Scripts</h3>
+                    <div class="ui setting">
+                        <span class="ui orange ribbon label">Flocking function <span class="detail js-flocking"></span></span>
+                        <textarea class="js-flocking-script">   
+function ( boid ) {
+    var vector = new THREE.Vector3( 0,0,0 );
+
+    vector
+        .add( Cohesion( boid ) )
+        .add( Separation( boid ) )
+        .add( Alignment( boid ) )
+        .add( AvoidBuildings( boid ) )
+    ;
+
+    if ( appData.isAvoidMouse ) {
+        vector.add( AvoidMouse( boid ) );
+    }
+
+    if ( appData.isTendMouse && !appData.isLeader ) {
+        vector.add( TendMouse( boid ) );
+    }
+
+    if ( appData.isLeader ) {
+        vector.add( TendLeader( boid ) );
+    }
+
+    return vector;
+}
+                        </textarea>
+                        <span class="ui button js-eval-flocking">Run</span>
+                    </div>
+                    <div class="ui setting">
+                        <span class="ui orange ribbon label">User's behaviour rule <span class="detail js-flocking"></span></span>
+                        <textarea class="js-user-script">   
+function( boid ) {              
+    return new THREE.Vector3(1,1,1);
+}
+                        </textarea>
+                        <span class="ui button js-eval-user">Run</span>
+                    </div>
+                <p class="author">&copy; Marcin Pajak, UJ, 2014</p>
+            </div>
+        </div>
+        <div class="buttons-container">
+            <span class="ui labeled icon button js-sidebar-toggle">
+                <i class="settings icon"></i> Settings
+            </span>
+            <span class="ui labeled icon button js-scripts-toggle">
+                <i class="code icon"></i> Scripts
+            </span>
+        </div>
+        <script data-main="js/app/main" src="js/lib/require.js"></script>
+    </body>
+</html>
